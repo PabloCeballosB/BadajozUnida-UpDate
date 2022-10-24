@@ -1,0 +1,41 @@
+<div class="contenedor-filtros">
+    <input type="checkbox" name="creados" #creados value="1" (change)="mostrar(creados.value)" checked><label for="">Eventos creados</label>
+    <input type="checkbox" name="apuntados" #apuntados value="2" (change)="mostrar(apuntados.value)" checked><label for="">Eventos apuntados</label>
+</div>
+<div class="separador"></div>
+<h2 *ngIf="mostrarCreados">Eventos creados</h2>
+<div class="contenedor-eventos creados" *ngIf="mostrarCreados && mostrarC">
+  <div class="evento" *ngFor="let eventoCreado of eventosCreados">
+    <div class="imagen-evento"  [ngStyle]="{'background-image': 'url(' + 'https://24.2daw.esvirgua.com/php/eventos/imagenes/'+eventoCreado.imagen + ')'}"></div>
+    <h2>{{eventoCreado.titulo}}</h2>
+    <p>{{eventoCreado.descripcion}}</p>
+    <div class="info">
+      <span><strong>Fecha y hora: </strong> {{eventoCreado.fechaHora}}</span>
+      <span><strong>Lugar: </strong> {{eventoCreado.nombreUbicacion}}</span>
+      <span><strong>Organizador/a: </strong>{{eventoCreado.nombreCreador}}</span>
+      <span><strong>Nº asistentes: </strong>{{eventoCreado.numParticipantes}}</span>
+      <span><strong>{{eventoCreado.nombreSubcategoria}}</strong></span>
+    </div>
+        <button (click)="preguntaBorrado(eventoCreado.idEvento,eventoCreado.imagen,1)"><i class="bi bi-trash-fill"></i></button >
+    </div>
+</div>
+<p *ngIf="!mostrarC && mostrarCreados">No has creado ningún evento.</p>
+<hr *ngIf="mostrarParticipo && mostrarCreados"/>
+<h2 *ngIf="mostrarParticipo">Eventos apuntados</h2>
+<div class="contenedor-eventos apuntados" *ngIf="mostrarParticipo && mostrarP">
+    <div class="evento" *ngFor="let eventoParticipo of eventosParticipo">
+        <div class="imagen-evento"  [ngStyle]="{'background-image': 'url(' + 'https://24.2daw.esvirgua.com/php/eventos/imagenes/'+eventoParticipo.imagen + ')'}"></div>
+        <h2>{{eventoParticipo.titulo}}</h2>
+        <p>{{eventoParticipo.descripcion}}</p>
+        <div class="info">
+            <span><strong>Fecha y hora: </strong> {{eventoParticipo.fechaHora}}</span>
+            <span><strong>Lugar: </strong> {{eventoParticipo.nombreUbicacion}}</span>
+            <span><strong>Organizador/a: </strong>{{eventoParticipo.nombreCreador}}</span>
+            <span><strong>Nº asistentes: </strong>{{eventoParticipo.numParticipantes}}</span>
+            <span><strong>{{eventoParticipo.nombreSubcategoria}}</strong></span>
+        </div>
+        <button (click)="preguntaBorrado(eventoParticipo.idEvento,eventoParticipo.imange,2)">Desapuntarme <i class="bi bi-dash-circle-fill"></i></button>
+    </div>
+</div>
+<p *ngIf="!mostrarP && mostrarParticipo">No participas en ningún evento.</p>
+<app-modal></app-modal>

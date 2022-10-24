@@ -1,0 +1,16 @@
+<p><input #nombreUbicacion type="text" (keyup)="buscar(nombreUbicacion.value)" placeholder="Buscar ubicaciones..." /></p>
+<button class="add" (click)="llamarFormulario(0)">Añadir ubicación</button>
+<div class="contenedor-ubicaciones" *ngIf="mostrar">
+    <div class="ubicacion"  *ngFor="let ubicacion of ubicaciones" >
+        <div class="ubicacion-datos">
+            <h2 class="nombre" title={{ubicacion.nombre}}>{{ubicacion.nombre}}</h2>
+            <div class="iconos">
+               <button (click)="llamarFormulario(ubicacion.idUbicacion)"> <i class="bi bi-pencil-fill" ></i></button>
+              <button (click)="preguntaBorrado(ubicacion.idUbicacion)"> <i class="bi bi-trash-fill" ></i></button>
+            </div>
+        </div>
+        <div class="descripcion">{{ubicacion.direccion}}</div>
+    </div>
+</div>
+<p *ngIf="!mostrar">No se han encontrado resultados</p>
+<app-modal></app-modal>

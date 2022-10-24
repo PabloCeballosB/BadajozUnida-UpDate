@@ -1,0 +1,12 @@
+{
+  "defaultProject": "badajozUnida",
+  "projects": {
+    "badajozUnida": {
+      "name": "badajoz-unida",
+      "integrations": {
+        "capacitor": {}
+      },
+      "type": "angular"
+    }
+  }
+}

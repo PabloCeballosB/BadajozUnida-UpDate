@@ -1,0 +1,19 @@
+<div class="contenedor-eventos">
+    <div class="evento" *ngFor="let evento of eventos">
+        <div class="imagen-evento" [ngStyle]="{'background-image': 'url(' + 'https://24.2daw.esvirgua.com/php/eventos/imagenes/'+evento.imagen + ')'}"></div>
+        <h2>{{evento.titulo}}</h2>
+        <p>{{evento.descripcion}}</p>
+        <div class="info">
+            <span><strong>Fecha y hora: </strong> {{evento.fechaHora}}</span>
+            <span><strong>Lugar: </strong> {{evento.nombreUbicacion}} </span>
+            <span><strong>Organizador/a: </strong> {{evento.nombreCreador}}</span>
+            <span><strong>Nº asistentes: </strong> {{evento.numParticipantes}}</span>
+            <span><strong>{{evento.nombreSubcateogria}}</strong></span>
+        </div>
+        <button *ngIf="comprobarParticipante(evento.idEvento)"(click)="anadirParticipante(evento.idEvento)">Apuntarme <i class="bi bi-check-circle-fill"></i></button>
+        <button *ngIf="!comprobarParticipante(evento.idEvento)"><i class="bi bi-check-circle-fill" style="opacity: 10%; cursor: default;"></i></button>
+      <!--<button *ngIf="!comprobarParticipante(evento.idEvento)"><i class="bi bi-dash-circle-fill" style="opacity: 10%"></i></button>-->
+    </div>
+</div>
+<p *ngIf="!mostrar">No hay eventos</p>
+<app-modal></app-modal>

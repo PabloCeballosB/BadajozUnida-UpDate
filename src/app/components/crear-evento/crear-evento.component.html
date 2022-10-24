@@ -1,0 +1,40 @@
+<div class="contenedor-crear">
+    <form [formGroup]="forma" (ngSubmit)="guardar(this.forma)" >
+        <div class="input-container">
+            <input type="text" formControlName="titulo" placeholder="Título">
+          <p *ngIf="!this.validar('titulo')" class="error">Título muy corto.</p>
+        </div>
+        <div class="input-container">
+            <div class="imagen">
+              <input type="file" accept="image/*" formControlName="imagen" (onFileChanged)="guardarFile($event)" alife-file-to-base64>
+              <button ><strong class="add-button">Añadir portada <i class="bi bi-image-fill"></i></strong></button>
+            </div>
+          <p *ngIf="!this.validar('imagen')" class="error">No hay imagen.</p>
+        </div>
+        <div class="input-container">
+            <textarea formControlName="descripcion" placeholder="Descripción..."></textarea>
+          <p *ngIf="!this.validar('descripcion')" class="error">Descripción muy corta.</p>
+        </div>
+        <div class="input-container">
+            <input type="datetime-local" formControlName="fechaHora" >
+          <p *ngIf="!comprobarFecha || !this.validar('fechaHora')" class="error">El evento debe organizarse con 24h de antelación.</p>
+        </div>
+        <div class="input-container">
+            <select formControlName="idUbicacion" >
+              <option value="" selected="selected">Seleccione Ubicación</option>
+                <option  *ngFor="let ubicacion of ubicaciones" value="{{ubicacion.idUbicacion}}" >{{ubicacion.nombre}}</option>
+            </select>
+          <strong class="add-button" (click)="anadirUbicacion()">Añadir ubicación <i class="bi bi-geo-alt-fill"></i></strong>
+          <p *ngIf="!this.validar('idUbicacion')" class="error">Debes elegir una ubicación</p>
+        </div>
+        <div class="input-container">
+            <select formControlName="idSubcategoria">
+              <option value="" selected="selected">Seleccione Subcategoría</option>
+                <option *ngFor="let subcategoria of subcategorias" value="{{subcategoria.idSubcategoria}}">{{subcategoria.nombre}}</option>
+            </select>
+          <p *ngIf="!this.validar('idSubcategoria')" class="error">Debes elegir una subcategoría</p>
+        </div>
+      <input type="submit" value="Guardar" />
+    </form>
+</div>
+<app-modal></app-modal>
