@@ -15,7 +15,9 @@ export class HomeComponent implements OnInit {
   eventos:any;
   modal=new ModalComponent();
   eventosByUsuario: any;
-  mostrar=true
+  eventosCreados:any;
+  mostrar=true;
+  idUsuario:any;
   /**
    * @ignore
   */
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
     this.listadoEvento();
     this.usuarioService.comprobarAutenticacion();
     this.listadoEventoByUsuario(usuarioService.getIdUsuarioActual());
+    this.idUsuario=usuarioService.getIdUsuarioActual();
   }
 
   /**
@@ -129,5 +132,49 @@ export class HomeComponent implements OnInit {
       return true;
     }
     return true;
+  }
+
+  comprobarAdministrador()
+  {
+    const tipoUsuario = this.usuarioService.getTipoActual();
+    if(tipoUsuario === 'a')
+    {
+      return true;
+    }
+    return false;
+  }
+
+  borrarEvento(idUsuario: any, idEvento: any, imagen:any, tipoUsuario:any) {
+    let datos = {
+      tipo: 'eliminarEvento',
+      idUsuario: idUsuario,
+      idEvento: idEvento,
+      imagen: imagen,
+      tipoUsuario: tipoUsuario
+    };    
+    
+    this.appService.postQuery(datos).subscribe(
+      (data) => {
+        if (data['status'] != 'error') {
+          this.eventosByUsuario = data;
+        } else {
+          console.log(data);
+        }
+      },
+      async (errorServicio) => {
+        console.log('he fallado');
+        console.log(errorServicio);
+      }
+    );
+  }
+
+  preguntaBorrado(idEvento:any, imagen:any) {
+    //Realizar la pregunta
+    const tipoUsuario = this.usuarioService.getTipoActual();
+    const idUsuario=this.usuarioService.getIdUsuarioActual(); 
+    if (confirm('¿Desea borrar el evento?') == true) {
+      console.log(idUsuario, idEvento, imagen, tipoUsuario)
+      this.borrarEvento(idUsuario, idEvento, imagen, tipoUsuario);
+    }
   }
 }

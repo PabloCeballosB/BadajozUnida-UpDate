@@ -35,11 +35,13 @@ export class AppService {
   postQuery(body:any):Observable<any>
   {
     body = JSON.stringify(body);
+    //console.log(body);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     }
+    //console.log(this.URLBASE2,body,httpOptions);
     return this.http.post(this.URLBASE2,body,httpOptions)
   }
 

@@ -337,6 +337,7 @@ switch($datos['tipo']){
     break;
 
   case 'eliminarEvento':
+    //die("Hola");
     $datosArray = $c_Evento->eliminarEvento($datos);
 
     if(isset($datosArray["result"]['error_id'])){

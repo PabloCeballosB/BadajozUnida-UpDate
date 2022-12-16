@@ -231,22 +231,36 @@ class C_Evento extends modelo
    */
   public function eliminarEvento($datos)
   {
-    if (isset($datos['idUsuario']) && isset($datos['idEvento']) && isset($datos['imagen'])) {
+    //die("hola2");
+    //print_r($datos);
+    //die("cucu");
+    if (isset($datos['idUsuario']) && isset($datos['idEvento']) && isset($datos['imagen']) && isset($datos['tipoUsuario'])) {
       if($this->eliminarImagen($datos['imagen'])){
-        $result = $this->realizarEliminacionEvento($datos['idUsuario'], $datos['idEvento']);
+        //die("hola3");
+        $result = $this->realizarEliminacionEvento($datos['idUsuario'], $datos['idEvento'], $datos['tipoUsuario']);
         if ($result == 1) {
-          return 'Te has desapuntado con éxito.';
+          return 'Evento eliminado con éxito';
         } else {
           return $result;
         }
       } else{
-        $this->_respuestas->error_200("No se ha podido borrar la iamgen");
+        $this->_respuestas->error_200("No se ha podido borrar la imagen");
       }
-
-    } else {
+    }
+    else {
       return $this->_respuestas->error_400();
     }
   }
+/*
+  public function eliminarEventoAdministrador($datos)
+  {
+    $this->eliminarImagen($datos['imagen']);
+    $query = "DELETE FROM Evento WHERE idEvento ='$datos['idEvento'];";
+    $datos = parent::nonQuery($query);
+    if ($datos > 0) {
+      return 1;
+    }
+  }*/
 
 
   /**
@@ -314,20 +328,38 @@ class C_Evento extends modelo
     }
   }
 
-    private function realizarEliminacionEvento($idUsuario, $idEvento)
+    private function realizarEliminacionEvento($idUsuario, $idEvento, $tipoUsuario)
   {
-    $query = "DELETE FROM Evento WHERE idUsuario ='$idUsuario' AND idEvento ='$idEvento';";
-    $datos = parent::nonQuery($query);
+    //die("PASAAAAAA");
+    if($tipoUsuario === 'a')
+    {
+      $query = "DELETE FROM Evento WHERE idEvento ='$idEvento';";
+      $datos = parent::nonQuery($query);
+    }
+    else{
+      $query = "DELETE FROM Evento WHERE idUsuario ='$idUsuario' AND idEvento ='$idEvento';";
+      $datos = parent::nonQuery($query);
+      /*if ($datos > 0) {
+        return 1;
+      } else {
+        $error = parent::errorId();
+        if ($error == 0) {
+          return $this->_respuestas->error_200("No has creado este evento.");
+        } else {
+          return $this->_respuestas->error_200("Fallo. Inténtelo de nuevo.");
+        }
+      }*/
+    }
     if ($datos > 0) {
       return 1;
-    } else {
+    }else {
       $error = parent::errorId();
-      if ($error == 0) {
-        return $this->_respuestas->error_200("No has creado este evento.");
-      } else {
+      if ($error != 0) {
         return $this->_respuestas->error_200("Fallo. Inténtelo de nuevo.");
       }
     }
+
+    
   }
 
   /**
@@ -370,8 +402,10 @@ class C_Evento extends modelo
    * @return bool Devuelve true si se ha borrado correctamente o false si ha fallado
    */
   private function eliminarImagen($img){
+    //die($img);
     $direccion = dirname(__DIR__)."/eventos/imagenes/";
     $file=$direccion.$img;
+    //die($file);
     if(unlink($file))
     {
       return true;

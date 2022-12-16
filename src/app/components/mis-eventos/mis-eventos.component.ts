@@ -168,12 +168,14 @@ export class MisEventosComponent implements OnInit {
    * @param id - ID del Evento
    */
   borrarEvento(idEvento: any, imagen:any) {
+    const tipoUsuario = this.usuarioService.getTipoActual();
     let datos = {
       tipo: 'eliminarEvento',
       idEvento: `${idEvento}`,
       idUsuario: `${this.idUsuario}`,
+      tipoUsuario,
       imagen:imagen
-
+      
     };
     this.appService.postQuery(datos).subscribe(
       (data) => {

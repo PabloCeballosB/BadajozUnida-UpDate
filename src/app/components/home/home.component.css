@@ -55,3 +55,10 @@
   background: none;
   outline: none;
 }
+
+#botonEliminar{
+  margin: 3px 150px;
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+}
